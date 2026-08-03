@@ -17,4 +17,6 @@ found at this [link](https://thomas.bibby.ie/using-the-kyx-5461as-4-digit-7-segm
 To make testing easier, I decided to connect the pins from the Arduino to match the pins on the display by number. For example,
 pin 1 on the Arduino matches to pin 1 on the display.
 
-With that, I made a simple program that counts up to 10 on the display.
+With that, I made a simple program that counts up to 10 on the display. In this program, I made a basic function to map digits to the required pins. I
+was going to expand this function for bigger numbers and decimals, but I found this [library](https://github.com/untr0py/SevSeg) instead.
+
