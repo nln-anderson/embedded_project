@@ -8,7 +8,7 @@ In fact, I could end up using this 4 digit display in the final project if it is
 I found the datasheet for the part. The part is called 5461AS-1. Here is what I gathered from the datasheet as well as the resource
 found at this [link](https://thomas.bibby.ie/using-the-kyx-5461as-4-digit-7-segment-led-display-with-arduino/).
 
-### Key Takeways
+### Datasheet Key Takeaways
 - The device is a common cathode display, meaning all the input pins flow into the output pin for each digit.
 - Each digit is controlled individually with pins 6, 8, 9, and 12. The remaining pins determine the segments.
 - Forward voltage drop is about 1.8V
@@ -18,5 +18,15 @@ To make testing easier, I decided to connect the pins from the Arduino to match 
 pin 1 on the Arduino matches to pin 1 on the display.
 
 With that, I made a simple program that counts up to 10 on the display. In this program, I made a basic function to map digits to the required pins. I
-was going to expand this function for bigger numbers and decimals, but I found this [library](https://github.com/untr0py/SevSeg) instead.
+was going to expand this function for bigger numbers and decimals, but I found this [library](https://github.com/untr0py/SevSeg) instead. A key
+point I noticed is that I shouldn't use the delay function since it locks up the program.
 
+## Ultrasonic Sensor
+This is the piece I really wanted to work with. I found a datasheet and tutorial.
+
+### Datasheet Key Takeaways
+- The Trigger pin should be activated for 10µs to generate the 40KHz burst. wrga 
+- Once the burst has been sent, the Echo pin will set to HIGH in proportion to the time it takes for the audio signal to return.
+- Therefore, distance = HIGH time * 340 m/s ÷ 2
+
+In my coding, I found the biggest challenge to be timing. Without using interrupts, it is hard to prevent blinking on the LED.
