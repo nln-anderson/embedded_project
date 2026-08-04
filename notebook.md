@@ -1,7 +1,7 @@
 # Notebook
 The contains all my day-to-day notes about testing and so forth.
 
-## 4 Digit Display
+## 4 Digit Display (5461AS)
 The first piece I wanted to get familiar with was the 4 digit display. The setup is more simple than the LCD that I eventually want to use.
 In fact, I could end up using this 4 digit display in the final project if it is a better fit.
 
@@ -21,12 +21,19 @@ With that, I made a simple program that counts up to 10 on the display. In this 
 was going to expand this function for bigger numbers and decimals, but I found this [library](https://github.com/untr0py/SevSeg) instead. A key
 point I noticed is that I shouldn't use the delay function since it locks up the program.
 
-## Ultrasonic Sensor
-This is the piece I really wanted to work with. I found a datasheet and tutorial.
+## Ultrasonic Sensor (HC-SR04)
+This is the piece I really wanted to work with. I found a [datasheet/tutorial](https://www.handsontec.com/dataspecs/HC-SR04-Ultrasonic.pdf).
 
 ### Datasheet Key Takeaways
 - The Trigger pin should be activated for 10µs to generate the 40KHz burst. wrga 
 - Once the burst has been sent, the Echo pin will set to HIGH in proportion to the time it takes for the audio signal to return.
 - Therefore, distance = HIGH time * 340 m/s ÷ 2
 
-In my coding, I found the biggest challenge to be timing. Without using interrupts, it is hard to prevent blinking on the LED.
+In my coding, I found the biggest challenge to be timing. Without using interrupts, it is hard to prevent blinking on the LED. But, I
+was able to get a smooth looking display without using interrupts. I will be using interrupts in the future however.
+
+## Shift Register (SNx74HC595)
+At this point, I notice that I am almost out of pins on the Arduino. One solution to this problem is to use a shift register
+so that a few pins can map to a multitude of output pins.
+
+

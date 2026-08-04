@@ -1,13 +1,13 @@
 #include <SevSeg.h>
 
-#define UPDATE_INTERVAL 100
+#define UPDATE_INTERVAL 200
+#define TRIG_PIN 13
+#define ECHO_PIN 0
 
 // Global variables and objects
 SevSeg sevseg;
 unsigned long previous_time = 0;
-int current_num = 0;
-const int trigPin = 13;  
-const int echoPin = 0;  
+int current_num = 0; 
 float duration, distance;
 
 void setup() {
@@ -26,9 +26,9 @@ void setup() {
     sevseg.setBrightness(50);
 
     //Sensor setup
-    pinMode(trigPin, OUTPUT);
-    pinMode(echoPin, INPUT);
-    digitalWrite(trigPin, LOW);
+    pinMode(TRIG_PIN, OUTPUT);
+    pinMode(ECHO_PIN, INPUT);
+    digitalWrite(TRIG_PIN, LOW);
     delay(10);
 }
 
@@ -37,11 +37,11 @@ void loop() {
 
  // Only ping the sensor (the blocking part) once per interval
     if (current_time - previous_time >= UPDATE_INTERVAL) {
-        digitalWrite(trigPin, HIGH);
+        digitalWrite(TRIG_PIN, HIGH);
         delayMicroseconds(10);
-        digitalWrite(trigPin, LOW);
+        digitalWrite(TRIG_PIN, LOW);
 
-        duration = pulseIn(echoPin, HIGH, 18000UL);
+        duration = pulseIn(ECHO_PIN, HIGH, 18000UL);
         distance = duration * 0.034 / 2;
 
         sevseg.setNumberF(distance, 0);
