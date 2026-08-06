@@ -25,7 +25,7 @@ point I noticed is that I shouldn't use the delay function since it locks up the
 This is the piece I really wanted to work with. I found a [datasheet/tutorial](https://www.handsontec.com/dataspecs/HC-SR04-Ultrasonic.pdf).
 
 ### Datasheet Key Takeaways
-- The Trigger pin should be activated for 10µs to generate the 40KHz burst. wrga 
+- The Trigger pin should be activated for 10µs to generate the 40KHz burst.
 - Once the burst has been sent, the Echo pin will set to HIGH in proportion to the time it takes for the audio signal to return.
 - Therefore, distance = HIGH time * 340 m/s ÷ 2
 
@@ -36,4 +36,12 @@ was able to get a smooth looking display without using interrupts. I will be usi
 At this point, I notice that I am almost out of pins on the Arduino. One solution to this problem is to use a shift register
 so that a few pins can map to a multitude of output pins.
 
+I found [this](https://lastminuteengineers.com/74hc595-shift-register-arduino-tutorial/) tutorial which helped immensely with understanding
+the purpose of each pin. The data sheet from Texas Instruments was useful but too verbose for me. 
 
+### Bare Metal Shift Register
+For this, I needed to know where registers were stored that I needed.
+
+## Bare Metal Experimentation
+I decided that I should familiarize myself with the low level coding behind the scenes of the Arduino package. I decided to try the LED blink program without
+using the Arduino package. The hardest part about this was learning the datasheet since I was already comfortable with pointers in C.
