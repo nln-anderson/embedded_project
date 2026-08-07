@@ -30,18 +30,48 @@ This is the piece I really wanted to work with. I found a [datasheet/tutorial](h
 - Therefore, distance = HIGH time * 340 m/s ÷ 2
 
 In my coding, I found the biggest challenge to be timing. Without using interrupts, it is hard to prevent blinking on the LED. But, I
-was able to get a smooth looking display without using interrupts. I will be using interrupts in the future however.
+was able to get a smooth looking display without using interrupts. See sensor_test.ino for the code.
+I plan to use interrupts in the future however.
 
 ## Shift Register (SNx74HC595)
 At this point, I notice that I am almost out of pins on the Arduino. One solution to this problem is to use a shift register
 so that a few pins can map to a multitude of output pins.
 
 I found [this](https://lastminuteengineers.com/74hc595-shift-register-arduino-tutorial/) tutorial which helped immensely with understanding
-the purpose of each pin. The data sheet from Texas Instruments was useful but too verbose for me. 
-
-### Bare Metal Shift Register
-For this, I needed to know where registers were stored that I needed.
+the purpose of each pin. The data sheet from Texas Instruments was useful but too verbose for me. Here is the summary I gather:
+- SRCLK is the clock pin. Data is shifted and stored when this goes from low to high.
+- SER is the data pin. This will store a 1 if high and a 0 if low.
+- RCLK is the latch pin. This moves the stored value to the output value. Idea being, you only want to update the register
+when the full value has been populated.
+- The rest of the pins will remain static or will act as output pins.
 
 ## Bare Metal Experimentation
 I decided that I should familiarize myself with the low level coding behind the scenes of the Arduino package. I decided to try the LED blink program without
 using the Arduino package. The hardest part about this was learning the datasheet since I was already comfortable with pointers in C.
+
+I was successful with a basic program to set the shift register output. I decided this was not worth pursing unless
+I saw significant performance issues with using the standard libraries.
+
+## Shift Register with Display
+This was part of the project I was worried about. While I don't have to use the shift register, I believe its a good idea to clear up
+pins in case I want to add other components later. My concern is that the serial update will not be fast enough to prevent the 
+display from flickering.
+
+The idea was to use the shift register for the 7 segment pins. That way, 3 pins will control 7, opening up 4 extra pins.
+
+| Arduino Pin | Component | Component Pin |
+| ---        |    ----   |          --- |
+| 2     | Display    | Digit 1   |
+| 3 | Display        | Digit 2      |
+| 4 | Display        | Digit 3      |
+| 5 | Display        | Digit 4      |
+| 6 | Shift Register | Data (SER)   |
+| 7 | Shift Register | Latch (RCLK)|
+| 8 | Shift Register | Clock (SRCLK)|
+| 9 | Shift Register | Clear (SRCLR)|
+
+I wrote my own functions so that I have control over the process. One of the first challenges I faces was timing (again).
+Since I wrote the functions, the SRCLR pulse was not long enough to reset the register. I consulted the spec sheet and 
+found that the timing requirement is about 20 nano seconds. I decided to use a 1 microsecond delay since this is 
+the smallest time interval that you can easily use on Arduino. This is something on want to revisit to optimize.
+
