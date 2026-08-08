@@ -75,3 +75,8 @@ Since I wrote the functions, the SRCLR pulse was not long enough to reset the re
 found that the timing requirement is about 20 nano seconds. I decided to use a 1 microsecond delay since this is 
 the smallest time interval that you can easily use on Arduino. This is something on want to revisit to optimize.
 
+My next step was understanding how to display full 4-digit numbers without drivers. The hardest part, once again, was timing.
+Although, this coding really helped my embedded coding in general. It's always good to remember that functions are called every loop,
+which happens very quickly. For example, the functions I wrote would turn pins on then off, but with the assumption that 
+the loop calls the function so often that it appears to be always be on.
+

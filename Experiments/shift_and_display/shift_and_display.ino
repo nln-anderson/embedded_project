@@ -70,11 +70,74 @@ void setShiftRegister(int data_pin, int clock_pin, int latch_pin, int clear_pin,
   digitalWrite(latch_pin, HIGH);
 }
 
+void displayNumber(int data_pin, int clock_pin, int latch_pin, int clear_pin, int digit_1, int digit_2, int digit_3, int digit_4, int brightness ,int value){
+  // Given a byte input, this should display the correct number. Assumes a shift register is used.
+  // Turn all digits off to begin
+    digitalWrite(digit_1, HIGH);
+    digitalWrite(digit_2, HIGH);
+    digitalWrite(digit_3, HIGH);
+    digitalWrite(digit_4, HIGH);
+
+  // Check if number is within range < 9999
+  if (value >= 9999){
+    // Set the segment to 9
+    setShiftRegister(data_pin, clock_pin, latch_pin, clear_pin, digitPatterns[9]);
+    digitalWrite(digit_1, LOW);
+    digitalWrite(digit_2, LOW);
+    digitalWrite(digit_3, LOW);
+    digitalWrite(digit_4, LOW);
+  }
+  else if (value <= 0){
+    // Only enable digit 4
+    setShiftRegister(data_pin, clock_pin, latch_pin, clear_pin, digitPatterns[0]);
+    digitalWrite(digit_4, LOW);
+  }
+  else {
+    // main body of function. Takes an integer and displays it.
+    int digit;
+    digit = value / 1000;
+      if (digit >= 1){
+        setShiftRegister(data_pin, clock_pin, latch_pin, clear_pin, digitPatterns[digit]);
+        digitalWrite(digit_1, LOW);
+        delayMicroseconds(brightness);
+        digitalWrite(digit_1, HIGH);
+        value = value - digit *1000;
+      }
+
+      digit = value / 100;
+      if (digit >= 1){
+        setShiftRegister(data_pin, clock_pin, latch_pin, clear_pin, digitPatterns[digit]);
+        digitalWrite(digit_2, LOW);
+        delayMicroseconds(brightness);
+        digitalWrite(digit_2, HIGH);
+        value = value - digit *100;
+      }
+
+      digit = value / 10;
+      if (digit >= 1){
+        setShiftRegister(data_pin, clock_pin, latch_pin, clear_pin, digitPatterns[digit]);
+        digitalWrite(digit_3, LOW);
+        delayMicroseconds(brightness);
+        digitalWrite(digit_3, HIGH);
+        value = value - digit *10;
+      }
+
+      digit = value;
+      if (digit >= 1){
+        setShiftRegister(data_pin, clock_pin, latch_pin, clear_pin, digitPatterns[digit]);
+        digitalWrite(digit_4, LOW);
+        delayMicroseconds(brightness);
+        digitalWrite(digit_4, HIGH);
+        }
+    }
+}
+
 int loop_var = 0;
 void loop() {
-  byte test = digitPatterns[3];
+  displayNumber(PIN_6, PIN_8, PIN_7, PIN_9, PIN_2, PIN_3, PIN_4, PIN_5, 500, 123);
+  byte test = digitPatterns[5];
   if (loop_var == 0) {
-   setShiftRegister(PIN_6, PIN_8, PIN_7, PIN_9, test);
-   loop_var = 1;
+   //setShiftRegister(PIN_6, PIN_8, PIN_7, PIN_9, test);
+   //loop_var = 1;
   }
 }
