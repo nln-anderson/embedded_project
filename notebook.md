@@ -27,7 +27,7 @@ This is the piece I really wanted to work with. I found a [datasheet/tutorial](h
 ### Datasheet Key Takeaways
 - The Trigger pin should be activated for 10µs to generate the 40KHz burst.
 - Once the burst has been sent, the Echo pin will set to HIGH in proportion to the time it takes for the audio signal to return.
-- Therefore, distance = HIGH time * 340 m/s ÷ 2
+- Therefore, distance = HIGH time * 340 m/s ÷ 2 (at least for meters)
 
 In my coding, I found the biggest challenge to be timing. Without using interrupts, it is hard to prevent blinking on the LED. But, I
 was able to get a smooth looking display without using interrupts. See sensor_test.ino for the code.
@@ -80,3 +80,10 @@ Although, this coding really helped my embedded coding in general. It's always g
 which happens very quickly. For example, the functions I wrote would turn pins on then off, but with the assumption that 
 the loop calls the function so often that it appears to be always be on.
 
+In my code, I allowed for a brightness parameter. In reality, this controls how quickly the LED display is toggled off and on.
+I found that anything longer than 5 milliseconds is perceivable.
+
+As I was working, I thought to just add the ultrasonic sensor. It was quite easy to work into the code. That was the big benefit
+of working with the code myself rather than using drivers. Although, I still used some default Arduino functions, with the
+most import being pulseIn(). This one might be tricky to code on my own, but I will look at it down the line. For now,
+I have a functioning version of my device with the ability to add more components since I opened up more pins.
