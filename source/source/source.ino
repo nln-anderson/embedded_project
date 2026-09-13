@@ -172,13 +172,15 @@ int getDistance(int trig_pin, int echo_pin){
 
 int previous_time = 0;
 int count = 0;
+int previous_distance = 0;
 int distance = 0;
 
 void loop() {
   int current_time = millis();
   if (current_time - previous_time > 200){
     previous_time = current_time;
-    distance = getDistance(PIN_10, PIN_11);
+    previous_distance = distance;
+    distance = (getDistance(PIN_10, PIN_11) + previous_distance)/2;
   }
   displayNumber(PIN_6, PIN_8, PIN_7, PIN_9, PIN_2, PIN_3, PIN_4, PIN_5, 5000, distance);
 }
